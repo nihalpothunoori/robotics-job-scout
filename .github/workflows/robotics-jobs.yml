@@ -37,10 +37,10 @@ jobs:
       - name: Install job-scout
         run: uv pip install --system -e ".[tls]"
 
-      # Install requests + playwright for the company scraper
+      # Install requests + playwright + anthropic for scraper + auto-apply
       - name: Install company scraper deps
         run: |
-          uv pip install --system requests playwright
+          uv pip install --system requests playwright anthropic
           playwright install chromium --with-deps
 
       # Persist the job-scout SQLite DB between runs
@@ -69,12 +69,20 @@ jobs:
           DISCORD_WEBHOOK_JOBS: ${{ secrets.DISCORD_WEBHOOK_JOBS }}
         run: python main.py
 
+      # ── Agent 3: auto-apply to scored intern jobs via Claude + ATS APIs ──
+      - name: Auto-apply to new intern postings
+        working-directory: auto_apply
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DISCORD_WEBHOOK_JOBS: ${{ secrets.DISCORD_WEBHOOK_JOBS }}
+        run: python main.py
+
       # Commit updated state.json so next run only alerts on truly new jobs
       - name: Save company scraper state
         run: |
           git config user.email "github-actions@github.com"
           git config user.name "GitHub Actions"
-          git add company_scraper/state.json
-          git diff --staged --quiet || git commit -m "chore: update company scraper state [skip ci]"
+          git add company_scraper/state.json auto_apply/applied.json
+          git diff --staged --quiet || git commit -m "chore: update scraper state + applied log [skip ci]"
           git pull --rebase origin main
           git push || (git pull --rebase origin main && git push)

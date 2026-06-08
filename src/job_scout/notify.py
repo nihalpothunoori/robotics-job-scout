@@ -161,27 +161,47 @@ class Notifier:
             log.warning("Discord webhook_url not configured")
             return
 
-        prefix = (
-            f"**job-scout ({self.profile_name})**"
-            if self.profile_name != "default"
-            else "**job-scout**"
-        )
-        lines = [f"{prefix} — {len(jobs)} new match(es)\n"]
-        for job in jobs:
-            salary = job.compensation.display_concise if job.compensation else ""
-            kw = job.score_breakdown.get("keyword", "?") if job.score_breakdown else "?"
-            id_tag = f"#{job.id} " if job.id else ""
-            loc_line = f"  {_esc_discord(job.location.display)}"
-            if salary:
-                loc_line += f" | {_esc_discord(salary)}"
-            lines.append(
-                f"**{_esc_discord(job.company)}: {_esc_discord(job.title)}**\n"
-                f"Score: {job.score} | keywords: {kw} | {id_tag}{loc_line}\n"
-                f"{job.url}"
-            )
-        text = "\n".join(lines)
+        from datetime import datetime, timezone
 
-        send_discord(text=text, cfg=cfg)
+        CHUNK = 25
+        EMBED_COLOR = 0x5865F2  # Discord blurple
+
+        for i in range(0, len(jobs), CHUNK):
+            batch = jobs[i : i + CHUNK]
+            fields = []
+            for job in batch:
+                age = ""
+                if job.date_posted:
+                    from datetime import date
+                    delta = date.today() - job.date_posted
+                    if delta.days == 0:
+                        age = " · posted today"
+                    elif delta.days == 1:
+                        age = " · posted yesterday"
+                    elif delta.days < 30:
+                        age = f" · posted {delta.days}d ago"
+
+                loc = job.location.display if job.location else ""
+                loc_tag = f" · {loc}" if loc and loc not in ("Remote", "Unknown", "") else ""
+                fields.append({
+                    "name": f"🏢 {job.company}",
+                    "value": f"[{job.title}]({job.url}){age}{loc_tag}",
+                    "inline": False,
+                })
+
+            total = len(jobs)
+            n_chunks = -(-total // CHUNK)
+            chunk_label = f" ({i // CHUNK + 1}/{n_chunks})" if n_chunks > 1 else ""
+            payload = {
+                "embeds": [{
+                    "title": f"🤖 {total} new intern posting{'s' if total != 1 else ''}{chunk_label}",
+                    "color": EMBED_COLOR,
+                    "fields": fields,
+                    "footer": {"text": "robotics-job-scout · LinkedIn/Google job boards"},
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }]
+            }
+            send_discord(payload=payload, cfg=cfg)
 
 
 def send_telegram(text: str, cfg) -> bool:
@@ -295,14 +315,15 @@ def send_slack(text: str, cfg: SlackConfig) -> bool:
         return False
 
 
-def send_discord(text: str, cfg: DiscordConfig) -> bool:
-    """POST to Discord webhook. Returns True on success."""
+def send_discord(cfg: DiscordConfig, text: str = "", payload: dict | None = None) -> bool:
+    """POST to Discord webhook. Pass payload for embeds, text for plain messages."""
     if not cfg.webhook_url:
         log.error("Discord not configured (missing webhook_url)")
         return False
 
+    body = payload if payload else {"content": text}
     try:
-        resp = httpx.post(cfg.webhook_url, json={"content": text}, timeout=10)
+        resp = httpx.post(cfg.webhook_url, json=body, timeout=10)
         if 200 <= resp.status_code < 300:
             log.info("Discord message sent")
             return True

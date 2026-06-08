@@ -27,8 +27,12 @@ def load_seen() -> set:
     return set()
 
 
-def save_seen(seen: set) -> None:
-    STATE_FILE.write_text(json.dumps({"seen": sorted(seen)}, indent=2))
+def save_seen(seen: set, jobs: list[dict] | None = None) -> None:
+    data: dict = {"seen": sorted(seen)}
+    if jobs is not None:
+        # Keep last 500 jobs for auto_apply to process
+        data["jobs"] = jobs[-500:]
+    STATE_FILE.write_text(json.dumps(data, indent=2))
 
 
 def fetch(company, ats, slug) -> list[dict]:
@@ -36,7 +40,12 @@ def fetch(company, ats, slug) -> list[dict]:
     if not fn:
         return []
     try:
-        return fn(company, slug)
+        jobs = fn(company, slug)
+        # Tag each job with its ATS source for the auto-apply pipeline
+        for j in jobs:
+            j["_ats"] = ats
+            j["_slug"] = slug
+        return jobs
     except Exception as e:
         print(f"[{company}] error: {e}", file=sys.stderr)
         return []
@@ -61,7 +70,8 @@ def main() -> None:
     for j in new_jobs:
         seen.add(j["id"])
 
-    save_seen(seen)
+    # Persist seen IDs + full job details (for auto_apply pipeline)
+    save_seen(seen, all_jobs)
 
     if new_jobs:
         print(f"Sending {len(new_jobs)} new intern postings to Discord")

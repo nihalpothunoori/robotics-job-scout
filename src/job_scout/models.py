@@ -33,6 +33,7 @@ class Site(str, Enum):
     GLASSDOOR = "glassdoor"
     ZIPRECRUITER = "ziprecruiter"
     BAYT = "bayt"
+    TWITTER = "twitter"
 
 
 class JobType(str, Enum):

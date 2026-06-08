@@ -118,6 +118,7 @@ def get_scraper(site: str, config: ScrapingConfig) -> BaseScraper:
     from job_scout.scrapers.google import GoogleScraper
     from job_scout.scrapers.indeed import IndeedScraper
     from job_scout.scrapers.linkedin import LinkedInScraper
+    from job_scout.scrapers.twitter import TwitterScraper
     from job_scout.scrapers.ziprecruiter import ZipRecruiterScraper
 
     registry = {
@@ -127,6 +128,7 @@ def get_scraper(site: str, config: ScrapingConfig) -> BaseScraper:
         "glassdoor": GlassdoorScraper,
         "ziprecruiter": ZipRecruiterScraper,
         "bayt": BaytScraper,
+        "twitter": TwitterScraper,
     }
     cls = registry.get(site)
     if not cls:

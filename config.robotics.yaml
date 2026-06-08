@@ -1,0 +1,208 @@
+profile:
+  name: "Nihal"
+  target_title: "Software Engineer - Robotics / Robot Learning"
+
+  keywords:
+    critical:                     # at least one must match to unlock full keyword scoring
+      - "robot"
+      - "ROS"
+      - "embodied"
+      - "manipulation"
+      - "locomotion"
+    strong:                       # +3 pts each (capped at 18)
+      - "reinforcement learning"
+      - "robot learning"
+      - "VLA"
+      - "world model"
+      - "perception"
+      - "autonomous"
+      - "SLAM"
+      - "motion planning"
+      - "sensor fusion"
+      - "simulation"
+    moderate:                     # +1.5 pts each (capped at 9)
+      - "deep learning"
+      - "computer vision"
+      - "PyTorch"
+      - "C++"
+      - "machine learning"
+      - "neural network"
+      - "transformer"
+    weak:                         # +1 pt each (capped at 3)
+      - "Python"
+      - "TensorFlow"
+      - "CUDA"
+      - "embedded"
+
+  target_companies:
+    tier1:                        # +15 pts — dream companies
+      - "SpaceX"
+      - "Tesla"
+      - "Figure"
+      - "1X"
+      - "Physical Intelligence"
+      - "Boston Dynamics"
+      - "Waymo"
+      - "NVIDIA"
+    tier2:                        # +10 pts — great companies
+      - "Agility Robotics"
+      - "Apptronik"
+      - "Sanctuary AI"
+      - "Shield AI"
+      - "Skydio"
+      - "Covariant"
+      - "Aurora"
+      - "Joby Aviation"
+      - "Google DeepMind"
+      - "Archer Aviation"
+      - "Skild"
+      - "Overland AI"
+      - "Dexterity"
+    tier3:                        # +6 pts — solid companies
+      - "ANYbotics"
+      - "Zipline"
+      - "Nuro"
+      - "Motional"
+      - "Locus Robotics"
+      - "Berkshire Grey"
+      - "Diligent Robotics"
+      - "Viam Robotics"
+      - "Intrinsic"
+      - "Amazon Robotics"
+      - "Luminar"
+      - "ABB Robotics"
+      - "Clearpath"
+      - "Fetch Robotics"
+      - "GreyOrange"
+      - "Exotec"
+      - "Hai Robotics"
+
+  dealbreakers:
+    title_patterns:
+      - "(?i)manager"
+      - "(?i)director"
+      - "(?i)\\bvp\\b"
+      - "(?i)president"
+      - "(?i)recruiter"
+      - "(?i)\\bsales\\b"
+      - "(?i)marketing"
+      - "(?i)accountant"
+      - "(?i)finance"
+      - "(?i)\\blegal\\b"
+      - "(?i)\\bhr\\b"
+    company_patterns: []
+    description_patterns: []
+
+  target_levels:
+    - "Senior"
+    - "Staff"
+    - "Lead"
+    - "Principal"
+    - "Engineer"
+    - "Scientist"
+    - "Intern"
+
+  title_signals:
+    # --- Intern signals (fall 2026 / summer 2027) ---
+    - pattern: "fall 2026"
+      points: 20
+    - pattern: "summer 2027"
+      points: 20
+    - pattern: "fall 2025"
+      points: 15
+    - pattern: "summer 2026"
+      points: 18
+    - pattern: "intern"
+      points: 12
+    - pattern: "internship"
+      points: 12
+    # --- Full-time robotics signals ---
+    - pattern: "robot learning"
+      points: 20
+    - pattern: "embodied AI"
+      points: 18
+    - pattern: "embodied"
+      points: 15
+    - pattern: "VLA"
+      points: 20
+    - pattern: "world model"
+      points: 18
+    - pattern: "reinforcement learning"
+      points: 15
+    - pattern: "robotics"
+      points: 12
+    - pattern: "robot"
+      points: 12
+    - pattern: "autonomous"
+      points: 10
+    - pattern: "perception"
+      points: 10
+    - pattern: "research engineer"
+      points: 8
+    - pattern: "research scientist"
+      points: 8
+    - pattern: "machine learning engineer"
+      points: 6
+    - pattern: "software engineer"
+      points: 5
+
+search:
+  terms:
+    # Full-time roles
+    - "software engineer robotics"
+    - "machine learning engineer robotics"
+    - "robot learning engineer"
+    - "embodied AI engineer"
+    - "autonomous systems engineer"
+    - "reinforcement learning engineer"
+    - "robotics engineer"
+    - "perception engineer"
+    # Intern roles — fall 2026 and summer 2027
+    - "robotics software engineer intern fall 2026"
+    - "robotics software engineer intern summer 2027"
+    - "machine learning intern robotics 2026"
+    - "machine learning intern robotics 2027"
+    - "robot learning intern"
+    - "embodied AI intern"
+  locations:
+    - "United States"
+    - "Remote"
+  sites:
+    - linkedin
+    - indeed
+    - google
+    - twitter
+  results_per_site: 20
+  hours_old: 24          # look back 24 hrs; DB deduplication prevents duplicate alerts
+  distance_miles: 100
+
+scraping:
+  delay_min_seconds: 3.0
+  delay_max_seconds: 8.0
+  request_timeout: 20
+  max_retries: 2
+  max_pages: 3
+  fetch_descriptions: true
+  use_tls_fingerprinting: false
+  max_workers: 3
+
+scoring:
+  min_alert_score: 30    # low enough to catch all relevant hits at target companies
+  min_display_score: 20
+  alert_states: []       # alert for all states + remote
+
+notifications:
+  macos:
+    enabled: false       # running headless on GitHub Actions
+  email:
+    enabled: false
+  telegram:
+    enabled: false
+  slack:
+    enabled: false
+  discord:
+    enabled: true
+    webhook_url: "DISCORD_WEBHOOK_URL_PLACEHOLDER"
+
+schedule:
+  interval_hours: 1

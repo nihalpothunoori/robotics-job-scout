@@ -1,0 +1,61 @@
+name: Robotics Job Scout
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # every hour, on the hour
+  workflow_dispatch:       # manual trigger for testing
+
+permissions:
+  contents: read
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        run: pip install uv --quiet
+
+      # Cache installed packages so hourly runs skip re-downloading deps.
+      # Key includes the lockfile hash so cache busts automatically when
+      # dependencies change.
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-${{ hashFiles('uv.lock', 'pyproject.toml') }}
+          restore-keys: uv-${{ runner.os }}-
+
+      - name: Install job-scout
+        run: uv pip install --system -e .
+
+      # Persist the SQLite DB between runs using cache.
+      # Rolling key ensures the latest DB is always saved;
+      # restore-keys fallback picks up the most recent prior run.
+      - name: Restore job database
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/job-scout/
+          key: job-scout-db-robotics-${{ github.run_number }}
+          restore-keys: |
+            job-scout-db-robotics-
+
+      - name: Inject Discord webhook URL
+        env:
+          DISCORD_WEBHOOK_JOBS: ${{ secrets.DISCORD_WEBHOOK_JOBS }}
+        run: |
+          sed -i "s|DISCORD_WEBHOOK_URL_PLACEHOLDER|${DISCORD_WEBHOOK_JOBS}|g" config.robotics.yaml
+
+      - name: Run scraper
+        run: job-scout --config config.robotics.yaml scrape
+
+      # Cache is automatically saved at end of job by actions/cache

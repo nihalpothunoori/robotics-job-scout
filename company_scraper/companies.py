@@ -1,30 +1,38 @@
-# Top-tier robotics companies only, grouped by ATS
-# (display_name, ats_type, slug)
+# Top robotics companies with confirmed-working ATS endpoints.
+# Each entry: (display_name, ats_type, slug)
+#
+# Companies NOT listed here (no accessible API):
+#   Workday: Tesla, NVIDIA, Boston Dynamics, Stryker, Medtronic, ABB
+#   Ashby private (401): Physical Intelligence, 1X Technologies, Skydio, Covariant,
+#     Aurora, Skild AI, Collaborative Robotics, Joby Aviation, Saildrone, AeroVironment,
+#     Kratos Defense, Monarch Tractor, Procept BioRobotics, CMR Surgical, Asensus Surgical,
+#     Burro, GreyOrange, Gideon Brothers
+#   Custom/other: OpenAI, Ghost Robotics (Paylocity), Intuitive Surgical
+#   No US internships: Unitree, Xiaomi, Fourier, UBTECH, Astribot, Mentee
+#
+# Posts from inaccessible companies will appear via LinkedIn/Google job-scout searches.
 
 COMPANIES = [
-    # ── Lever ──────────────────────────────────────────────────────────────
-    ("Figure AI",               "lever",      "figureai"),
-    ("1X Technologies",         "lever",      "1x"),
-    ("Skydio",                  "lever",      "skydio"),
-    ("Covariant",               "lever",      "covariant"),
-    ("Agility Robotics",        "lever",      "agilityrobotics"),
-    ("Shield AI",               "lever",      "shieldai"),
+    # ── Greenhouse ─────────────────────────────────────────────────────────────
+    ("Figure AI",              "greenhouse", "figure"),
+    ("Waymo",                  "greenhouse", "waymo"),
+    ("Agility Robotics",       "greenhouse", "agilityrobotics"),
+    ("Google DeepMind",        "greenhouse", "deepmind"),
+    ("Anduril Industries",     "greenhouse", "andurilindustries"),
+    ("Apptronik",              "greenhouse", "apptronik"),
+    ("Epirus",                 "greenhouse", "epirus"),
+    ("Metron",                 "greenhouse", "metron"),
+    ("Outrider",               "greenhouse", "outrider"),
+    ("Locus Robotics",         "greenhouse", "locusrobotics"),
+    ("Vicarious Surgical",     "greenhouse", "vicarioussurgical"),
+    ("Motional",               "greenhouse", "motional"),
+    ("Archer Aviation",        "greenhouse", "archer"),
 
-    # ── Greenhouse ─────────────────────────────────────────────────────────
-    ("Boston Dynamics",         "greenhouse", "bostondynamics"),
-    ("Waymo",                   "greenhouse", "waymo"),
-    ("Aurora",                  "greenhouse", "aurora"),
-    ("Joby Aviation",           "greenhouse", "jobyaviation"),
-    ("Archer Aviation",         "greenhouse", "archeraviation"),
-    ("Motional",                "greenhouse", "motional"),
-
-    # ── Ashby ──────────────────────────────────────────────────────────────
-    ("Apptronik",               "ashby",      "apptronik"),
-    ("Physical Intelligence",   "ashby",      "physicalintelligence"),
-    ("Sanctuary AI",            "ashby",      "sanctuary"),
-    ("Skild AI",                "ashby",      "skild"),
-    ("Collaborative Robotics",  "ashby",      "collaborativerobotics"),
-
-    # SpaceX, Tesla, NVIDIA, Google DeepMind use Workday or custom sites —
-    # those get caught via LinkedIn/Google job board searches instead.
+    # ── Lever ──────────────────────────────────────────────────────────────────
+    ("Shield AI",              "lever",      "shieldai"),
+    ("Sanctuary AI",           "lever",      "sanctuary"),
+    ("Saronic Technologies",   "lever",      "saronic"),
+    ("Merlin Labs",            "lever",      "merlinlabs"),
+    ("Cyngn",                  "lever",      "cyngn"),
+    ("Forterra",               "lever",      "forterra"),
 ]

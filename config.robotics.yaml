@@ -132,7 +132,7 @@ search:
     - linkedin
     - google
   results_per_site: 10
-  hours_old: 168
+  hours_old: 24
   distance_miles: 100
 
 scraping:

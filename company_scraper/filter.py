@@ -1,33 +1,27 @@
 import re
 
-# Must match at least one of these in title or description to be relevant
-KEYWORDS = [
-    # Core robotics
-    "robot", "robotics", "ros", "embodied", "manipulation", "locomotion",
-    # ML/RL for robotics
-    "reinforcement learning", "robot learning", "vla", "world model",
-    "imitation learning", "behavior cloning", "diffusion policy",
-    # Perception / sensing
-    "perception", "slam", "lidar", "point cloud", "sensor fusion",
-    "motion planning", "computer vision", "autonomous",
-    # Roles
-    "software engineer", "ml engineer", "machine learning engineer",
-    "research engineer", "research scientist", "ai engineer",
-    "embedded", "controls", "simulation",
-    # Intern
-    "intern", "internship",
-]
+# Must have "intern" or "internship" in the title
+_INTERN_RE = re.compile(r"\b(intern|internship)\b", re.I)
 
-EXCLUDE_TITLE = re.compile(
-    r"\b(manager|director|\bvp\b|president|recruiter|sales|"
-    r"marketing|accountant|finance|\blegal\b|\bhr\b|counsel)\b",
+# Must have at least one technical keyword in title or description
+_TECH_RE = re.compile(
+    r"\b(robot|robotics|ros|software|machine learning|ml|ai|autonomous|"
+    r"perception|reinforcement learning|computer vision|embedded|controls|"
+    r"simulation|slam|manipulation|locomotion|vla|world model)\b",
     re.I,
 )
 
-_kw_re = re.compile("|".join(re.escape(k) for k in KEYWORDS), re.I)
+# Hard exclude — never want these even as intern roles
+_EXCLUDE_RE = re.compile(
+    r"\b(recruiter|sales|marketing|finance|accounting|legal|\bhr\b|counsel|"
+    r"operations manager|program manager)\b",
+    re.I,
+)
 
 
 def is_relevant(title: str, description: str = "") -> bool:
-    if EXCLUDE_TITLE.search(title):
+    if not _INTERN_RE.search(title):
         return False
-    return bool(_kw_re.search(f"{title} {description}"))
+    if _EXCLUDE_RE.search(title):
+        return False
+    return bool(_TECH_RE.search(f"{title} {description}"))

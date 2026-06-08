@@ -173,7 +173,7 @@ search:
     - google
     - twitter
   results_per_site: 20
-  hours_old: 24          # look back 24 hrs; DB deduplication prevents duplicate alerts
+  hours_old: 72          # look back 72 hrs; DB deduplication prevents duplicate alerts
   distance_miles: 100
 
 scraping:
@@ -183,7 +183,7 @@ scraping:
   max_retries: 2
   max_pages: 3
   fetch_descriptions: true
-  use_tls_fingerprinting: false
+  use_tls_fingerprinting: true   # browser-like TLS — reduces bot detection on Indeed/Google
   max_workers: 3
 
 scoring:

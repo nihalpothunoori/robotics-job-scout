@@ -3,15 +3,15 @@ name: Robotics Job Scout
 on:
   schedule:
     - cron: '0 * * * *'   # every hour, on the hour
-  workflow_dispatch:       # manual trigger for testing
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write          # needed to commit state.json back to repo
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repo
@@ -25,9 +25,6 @@ jobs:
       - name: Install uv
         run: pip install uv --quiet
 
-      # Cache installed packages so hourly runs skip re-downloading deps.
-      # Key includes the lockfile hash so cache busts automatically when
-      # dependencies change.
       - name: Cache pip packages
         uses: actions/cache@v4
         with:
@@ -35,13 +32,17 @@ jobs:
           key: uv-${{ runner.os }}-${{ hashFiles('uv.lock', 'pyproject.toml') }}
           restore-keys: uv-${{ runner.os }}-
 
+      # job-scout[tls] installs curl_cffi for browser-like TLS fingerprinting,
+      # which significantly improves hit rates on Indeed and Google Jobs.
       - name: Install job-scout
-        run: uv pip install --system -e .
+        run: uv pip install --system -e ".[tls]"
 
-      # Persist the SQLite DB between runs using cache.
-      # Rolling key ensures the latest DB is always saved;
-      # restore-keys fallback picks up the most recent prior run.
-      - name: Restore job database
+      # Install requests for the company scraper (no extra deps needed)
+      - name: Install company scraper deps
+        run: uv pip install --system requests
+
+      # Persist the job-scout SQLite DB between runs
+      - name: Restore job-scout database
         uses: actions/cache@v4
         with:
           path: ~/.local/share/job-scout/
@@ -55,7 +56,22 @@ jobs:
         run: |
           sed -i "s|DISCORD_WEBHOOK_URL_PLACEHOLDER|${DISCORD_WEBHOOK_JOBS}|g" config.robotics.yaml
 
-      - name: Run scraper
+      # ── Agent 1: job boards (LinkedIn, Indeed, Google, X) ──────────────
+      - name: Run job-board scraper
         run: job-scout --config config.robotics.yaml scrape
 
-      # Cache is automatically saved at end of job by actions/cache
+      # ── Agent 2: direct company career pages (Lever/Greenhouse/Ashby) ──
+      - name: Run company career page scraper
+        working-directory: company_scraper
+        env:
+          DISCORD_WEBHOOK_JOBS: ${{ secrets.DISCORD_WEBHOOK_JOBS }}
+        run: python main.py
+
+      # Commit updated state.json so next run only alerts on truly new jobs
+      - name: Save company scraper state
+        run: |
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
+          git add company_scraper/state.json
+          git diff --staged --quiet || git commit -m "chore: update company scraper state [skip ci]"
+          git push

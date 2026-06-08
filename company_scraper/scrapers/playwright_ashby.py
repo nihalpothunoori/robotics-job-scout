@@ -1,9 +1,12 @@
 """
 Scrape Ashby job boards that require JavaScript (private API, 401 on REST).
-Uses Playwright to render the page and extract job listings.
+Uses Playwright to render jobs.ashbyhq.com/{slug} and extract job listings.
 Falls back gracefully if playwright is not installed.
 """
 import sys
+
+BASE = "https://jobs.ashbyhq.com"
+
 
 def scrape(company: str, slug: str) -> list[dict]:
     try:
@@ -12,7 +15,7 @@ def scrape(company: str, slug: str) -> list[dict]:
         print(f"[pw-ashby:{company}] playwright not installed, skipping", file=sys.stderr)
         return []
 
-    url = f"https://jobs.ashbyhq.com/{slug}"
+    url = f"{BASE}/{slug}"
     jobs = []
     try:
         with sync_playwright() as p:
@@ -20,47 +23,35 @@ def scrape(company: str, slug: str) -> list[dict]:
             page = browser.new_page()
             page.goto(url, timeout=20000, wait_until="networkidle")
 
-            # Wait for job list items to appear
+            # Wait for at least one job link to appear
             try:
-                page.wait_for_selector("[data-testid='job-listing-item'], a[href*='/jobs/'], .ashby-job-posting-brief", timeout=8000)
+                page.wait_for_selector(f"a[href^='/{slug}/']", timeout=8000)
             except PWTimeout:
                 pass
 
-            # Try multiple selector patterns Ashby uses
-            selectors = [
-                ("[data-testid='job-listing-item']",
-                 lambda el: (el.inner_text().split("\n")[0].strip(),
-                             el.get_attribute("href") or "")),
-                ("a[href*='/jobs/']",
-                 lambda el: (el.inner_text().strip(),
-                             el.get_attribute("href") or "")),
-                (".ashby-job-posting-brief-title",
-                 lambda el: (el.inner_text().strip(), "")),
-            ]
-
-            for selector, extractor in selectors:
-                elements = page.query_selector_all(selector)
-                if not elements:
+            # Ashby job links are /{slug}/{uuid} — grab all of them
+            elements = page.query_selector_all(f"a[href^='/{slug}/']")
+            seen_hrefs: set[str] = set()
+            for el in elements:
+                href = el.get_attribute("href") or ""
+                if not href or href in seen_hrefs:
                     continue
-                for el in elements:
-                    try:
-                        title, href = extractor(el)
-                        if not title or len(title) < 3:
-                            continue
-                        if href and not href.startswith("http"):
-                            href = f"https://jobs.ashbyhq.com{href}"
-                        job_url = href or url
-                        jobs.append({
-                            "id": f"ashby::{slug}::{title}",
-                            "company": company,
-                            "title": title,
-                            "url": job_url,
-                            "description": "",
-                        })
-                    except Exception:
-                        continue
-                if jobs:
-                    break
+                seen_hrefs.add(href)
+
+                # Title is the first non-empty line of the link text
+                raw_text = el.inner_text().strip()
+                title = raw_text.split("\n")[0].strip()
+                if not title or len(title) < 3:
+                    continue
+
+                job_url = f"{BASE}{href}"
+                jobs.append({
+                    "id": f"ashby::{slug}::{href}",
+                    "company": company,
+                    "title": title,
+                    "url": job_url,
+                    "description": "",
+                })
 
             browser.close()
     except Exception as e:

@@ -3,8 +3,29 @@ import requests
 from datetime import datetime, timezone
 
 WEBHOOK = os.environ["DISCORD_WEBHOOK_JOBS"]
-CHUNK = 25  # max embed fields per Discord message
-EMBED_COLOR = 0x5865F2  # Discord blurple
+CHUNK = 25
+EMBED_COLOR = 0x5865F2
+
+
+def _fmt_date(date_str: str) -> str:
+    """Convert ISO date string to readable relative time."""
+    if not date_str:
+        return ""
+    try:
+        dt = datetime.fromisoformat(date_str)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        now = datetime.now(timezone.utc)
+        delta = now - dt
+        minutes = int(delta.total_seconds() / 60)
+        if minutes < 60:
+            return f"posted {minutes}m ago"
+        hours = minutes // 60
+        if hours < 24:
+            return f"posted {hours}h ago"
+        return f"posted {delta.days}d ago"
+    except Exception:
+        return ""
 
 
 def send_jobs(jobs: list[dict]) -> None:
@@ -12,14 +33,16 @@ def send_jobs(jobs: list[dict]) -> None:
         batch = jobs[i : i + CHUNK]
         fields = []
         for j in batch:
+            age = _fmt_date(j.get("date_posted", ""))
+            age_str = f" · {age}" if age else " · just posted"
             fields.append({
                 "name": f"🏢 {j['company']}",
-                "value": f"[{j['title']}]({j['url']})",
+                "value": f"[{j['title']}]({j['url']}){age_str}",
                 "inline": False,
             })
 
         total = len(jobs)
-        n_chunks = -(-total // CHUNK)  # ceiling division
+        n_chunks = -(-total // CHUNK)
         chunk_label = f" ({i // CHUNK + 1}/{n_chunks})" if n_chunks > 1 else ""
         payload = {
             "embeds": [{

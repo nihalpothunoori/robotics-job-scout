@@ -102,30 +102,110 @@ profile:
 
 search:
   terms:
-    # Broad robotics intern searches
-    - "robotics software engineer intern 2026 2027"
-    - "robot learning embodied AI intern"
-    - "autonomous systems machine learning intern"
-    # Company-specific: companies not reachable via direct API
-    # (Ashby private boards, Workday, custom ATS)
-    - "Physical Intelligence intern 2026 2027"
-    - "1X Technologies intern 2026 2027"
-    - "Boston Dynamics intern 2026 2027"
-    - "Tesla robotics intern 2026 2027"
-    - "NVIDIA robotics intern 2026 2027"
-    - "Skydio software intern 2026 2027"
-    - "Aurora software intern 2026 2027"
-    - "Covariant AI intern 2026 2027"
-    - "OpenAI robotics intern 2026 2027"
-    - "Joby Aviation software intern 2026 2027"
-    - "Saildrone software intern 2026 2027"
-    - "Intuitive Surgical software intern 2026 2027"
-    - "Ghost Robotics software intern 2026 2027"
-    - "Skild AI intern 2026 2027"
-    - "Collaborative Robotics intern 2026 2027"
-    - "Amazon Robotics software intern 2026 2027"
-    - "Microsoft robotics intern 2026 2027"
-    - "Symbotic software intern 2026 2027"
+    # ── Broad role-type sweeps (catch any company) ──────────────────────────
+    - "robotics software engineer intern"
+    - "robotics software engineer internship"
+    - "robotics engineering intern"
+    - "machine learning intern robotics"
+    - "ML engineer intern robotics"
+    - "AI engineer intern robotics"
+    - "embodied AI intern"
+    - "robot learning intern"
+    - "reinforcement learning robotics intern"
+    - "autonomous systems software intern"
+    - "perception engineer intern"
+    - "computer vision intern robotics"
+    - "controls engineer intern robotics"
+    - "embedded software intern robotics"
+    - "simulation engineer intern robotics"
+    - "SLAM engineer intern"
+    - "robot manipulation intern"
+    - "VLA vision language action intern"
+    - "world model intern robotics"
+    - "ROS intern software engineer"
+    # ── Tesla ───────────────────────────────────────────────────────────────
+    - "Tesla software engineer intern"
+    - "Tesla machine learning intern"
+    - "Tesla AI intern"
+    - "Tesla autonomy intern"
+    - "Tesla Optimus robotics intern"
+    # ── NVIDIA ──────────────────────────────────────────────────────────────
+    - "NVIDIA robotics software intern"
+    - "NVIDIA deep learning intern"
+    - "NVIDIA AI research intern"
+    - "NVIDIA Isaac robotics intern"
+    # ── Boston Dynamics ─────────────────────────────────────────────────────
+    - "Boston Dynamics software intern"
+    - "Boston Dynamics robotics intern"
+    - "Boston Dynamics ML intern"
+    # ── Physical Intelligence ────────────────────────────────────────────────
+    - "Physical Intelligence software intern"
+    - "Physical Intelligence research intern"
+    - "Physical Intelligence robotics internship"
+    # ── 1X Technologies ─────────────────────────────────────────────────────
+    - "1X Technologies software intern"
+    - "1X Technologies robotics intern"
+    - "1X humanoid robotics intern"
+    # ── OpenAI ──────────────────────────────────────────────────────────────
+    - "OpenAI robotics intern"
+    - "OpenAI research intern robotics"
+    - "OpenAI software engineer intern"
+    # ── Skydio ──────────────────────────────────────────────────────────────
+    - "Skydio software engineer intern"
+    - "Skydio autonomy intern"
+    - "Skydio perception intern"
+    # ── Aurora ──────────────────────────────────────────────────────────────
+    - "Aurora Innovation software intern"
+    - "Aurora autonomous driving intern"
+    - "Aurora ML intern"
+    # ── Covariant ───────────────────────────────────────────────────────────
+    - "Covariant AI robotics intern"
+    - "Covariant software engineer intern"
+    # ── Amazon Robotics ─────────────────────────────────────────────────────
+    - "Amazon Robotics software intern"
+    - "Amazon Robotics ML intern"
+    - "Amazon Robotics perception intern"
+    # ── Microsoft ───────────────────────────────────────────────────────────
+    - "Microsoft robotics intern"
+    - "Microsoft AI robotics intern"
+    # ── Joby Aviation ───────────────────────────────────────────────────────
+    - "Joby Aviation software intern"
+    - "Joby Aviation autonomy intern"
+    - "Joby controls software intern"
+    # ── Ghost Robotics ──────────────────────────────────────────────────────
+    - "Ghost Robotics software intern"
+    - "Ghost Robotics controls intern"
+    # ── Intuitive Surgical ──────────────────────────────────────────────────
+    - "Intuitive Surgical software intern"
+    - "Intuitive Surgical robotics intern"
+    # ── Collaborative Robotics / Skild / Clearpath ──────────────────────────
+    - "Collaborative Robotics software intern"
+    - "Skild AI intern"
+    - "Clearpath Robotics software intern"
+    - "Clearpath Robotics intern"
+    # ── Saildrone / Teal / Kratos / AeroVironment ───────────────────────────
+    - "Saildrone software engineer intern"
+    - "Teal Drones software intern"
+    - "Kratos Defense software intern"
+    - "AeroVironment software intern"
+    - "AeroVironment robotics intern"
+    # ── Symbotic / Locus / AutoStore / Exotec ───────────────────────────────
+    - "Symbotic software engineer intern"
+    - "Symbotic robotics intern"
+    - "Locus Robotics software intern"
+    - "AutoStore software intern"
+    - "Exotec software engineer intern"
+    # ── Surgical robotics ───────────────────────────────────────────────────
+    - "CMR Surgical software intern"
+    - "Procept BioRobotics software intern"
+    - "Asensus Surgical software intern"
+    # ── Other companies ─────────────────────────────────────────────────────
+    - "Monarch Tractor software intern"
+    - "Saildrone autonomy intern"
+    - "GreyOrange software intern"
+    - "Mytra robotics intern"
+    - "Burro robotics software intern"
+
   locations:
     - "United States"
   sites:

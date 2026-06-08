@@ -32,18 +32,14 @@ jobs:
           key: uv-${{ runner.os }}-${{ hashFiles('uv.lock', 'pyproject.toml') }}
           restore-keys: uv-${{ runner.os }}-
 
-      # job-scout[tls] installs curl_cffi for browser-like TLS fingerprinting,
-      # which significantly improves hit rates on Indeed and Google Jobs.
       - name: Install job-scout
         run: uv pip install --system -e ".[tls]"
 
-      # Install requests + playwright + anthropic for scraper + auto-apply
       - name: Install company scraper deps
         run: |
-          uv pip install --system requests playwright anthropic
+          uv pip install --system requests playwright
           playwright install chromium --with-deps
 
-      # Persist the job-scout SQLite DB between runs
       - name: Restore job-scout database
         uses: actions/cache@v4
         with:
@@ -58,22 +54,14 @@ jobs:
         run: |
           sed -i "s|DISCORD_WEBHOOK_URL_PLACEHOLDER|${DISCORD_WEBHOOK_JOBS}|g" config.robotics.yaml
 
-      # ── Agent 1: job boards (LinkedIn, Indeed, Google, X) ──────────────
+      # ── Agent 1: job boards (LinkedIn, Google) ─────────────────────────
       - name: Run job-board scraper
         run: job-scout --config config.robotics.yaml scrape
 
-      # ── Agent 2: direct company career pages (Lever/Greenhouse/Ashby) ──
+      # ── Agent 2: direct company career pages (Lever/Greenhouse/Playwright) ──
       - name: Run company career page scraper
         working-directory: company_scraper
         env:
-          DISCORD_WEBHOOK_JOBS: ${{ secrets.DISCORD_WEBHOOK_JOBS }}
-        run: python main.py
-
-      # ── Agent 3: auto-apply to scored intern jobs via Claude + ATS APIs ──
-      - name: Auto-apply to new intern postings
-        working-directory: auto_apply
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DISCORD_WEBHOOK_JOBS: ${{ secrets.DISCORD_WEBHOOK_JOBS }}
         run: python main.py
 
@@ -82,7 +70,7 @@ jobs:
         run: |
           git config user.email "github-actions@github.com"
           git config user.name "GitHub Actions"
-          git add company_scraper/state.json auto_apply/applied.json
-          git diff --staged --quiet || git commit -m "chore: update scraper state + applied log [skip ci]"
+          git add company_scraper/state.json
+          git diff --staged --quiet || git commit -m "chore: update company scraper state [skip ci]"
           git pull --rebase origin main
           git push || (git pull --rebase origin main && git push)

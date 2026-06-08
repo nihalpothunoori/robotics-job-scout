@@ -170,16 +170,18 @@ class Notifier:
             batch = jobs[i : i + CHUNK]
             fields = []
             for job in batch:
+                from datetime import date as date_type
                 age = ""
                 if job.date_posted:
-                    from datetime import date
-                    delta = date.today() - job.date_posted
+                    delta = date_type.today() - job.date_posted
                     if delta.days == 0:
                         age = " · posted today"
                     elif delta.days == 1:
                         age = " · posted yesterday"
                     elif delta.days < 30:
                         age = f" · posted {delta.days}d ago"
+                else:
+                    age = " · just posted"
 
                 loc = job.location.display if job.location else ""
                 loc_tag = f" · {loc}" if loc and loc not in ("Remote", "Unknown", "") else ""

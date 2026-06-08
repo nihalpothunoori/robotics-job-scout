@@ -10,9 +10,15 @@ from companies import COMPANIES
 from filter import is_relevant
 from notifier import send_jobs
 from scrapers import ashby, greenhouse, lever
+from scrapers import playwright_ashby
 
 STATE_FILE = Path(__file__).parent / "state.json"
-SCRAPER = {"lever": lever.scrape, "greenhouse": greenhouse.scrape, "ashby": ashby.scrape}
+SCRAPER = {
+    "lever": lever.scrape,
+    "greenhouse": greenhouse.scrape,
+    "ashby": ashby.scrape,
+    "playwright_ashby": playwright_ashby.scrape,
+}
 
 
 def load_seen() -> set:

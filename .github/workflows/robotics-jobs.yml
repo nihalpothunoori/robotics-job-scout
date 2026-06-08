@@ -37,9 +37,11 @@ jobs:
       - name: Install job-scout
         run: uv pip install --system -e ".[tls]"
 
-      # Install requests for the company scraper (no extra deps needed)
+      # Install requests + playwright for the company scraper
       - name: Install company scraper deps
-        run: uv pip install --system requests
+        run: |
+          uv pip install --system requests playwright
+          playwright install chromium --with-deps
 
       # Persist the job-scout SQLite DB between runs
       - name: Restore job-scout database
@@ -74,4 +76,5 @@ jobs:
           git config user.name "GitHub Actions"
           git add company_scraper/state.json
           git diff --staged --quiet || git commit -m "chore: update company scraper state [skip ci]"
-          git push
+          git pull --rebase origin main
+          git push || (git pull --rebase origin main && git push)

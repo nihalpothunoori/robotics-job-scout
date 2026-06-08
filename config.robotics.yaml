@@ -102,19 +102,37 @@ profile:
 
 search:
   terms:
-    - "robotics software engineer intern fall 2026"
-    - "robotics software engineer intern summer 2027"
-    - "robot learning intern 2026 2027"
-    - "machine learning intern robotics"
-    - "embodied AI intern"
-    - "autonomous systems intern"
+    # Broad robotics intern searches
+    - "robotics software engineer intern 2026 2027"
+    - "robot learning embodied AI intern"
+    - "autonomous systems machine learning intern"
+    # Company-specific: companies not reachable via direct API
+    # (Ashby private boards, Workday, custom ATS)
+    - "Physical Intelligence intern 2026 2027"
+    - "1X Technologies intern 2026 2027"
+    - "Boston Dynamics intern 2026 2027"
+    - "Tesla robotics intern 2026 2027"
+    - "NVIDIA robotics intern 2026 2027"
+    - "Skydio software intern 2026 2027"
+    - "Aurora software intern 2026 2027"
+    - "Covariant AI intern 2026 2027"
+    - "OpenAI robotics intern 2026 2027"
+    - "Joby Aviation software intern 2026 2027"
+    - "Saildrone software intern 2026 2027"
+    - "Intuitive Surgical software intern 2026 2027"
+    - "Ghost Robotics software intern 2026 2027"
+    - "Skild AI intern 2026 2027"
+    - "Collaborative Robotics intern 2026 2027"
+    - "Amazon Robotics software intern 2026 2027"
+    - "Microsoft robotics intern 2026 2027"
+    - "Symbotic software intern 2026 2027"
   locations:
     - "United States"
   sites:
     - linkedin
     - google
-  results_per_site: 15
-  hours_old: 72
+  results_per_site: 10
+  hours_old: 168
   distance_miles: 100
 
 scraping:

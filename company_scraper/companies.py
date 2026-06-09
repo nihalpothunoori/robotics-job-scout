@@ -8,17 +8,18 @@
 #
 # Companies not listed (no programmatic access):
 #   Workday: Tesla, NVIDIA, Boston Dynamics, Stryker, Medtronic, ABB, Universal Robots
-#   iCIMS: Joby Aviation
-#   Custom: OpenAI, Intuitive Surgical, Ghost Robotics (Paylocity)
-#   No US internships: Unitree, Xiaomi, Fourier, UBTECH, Astribot, Mentee
-#   Industrial (no US intern programs): FANUC, Yaskawa, KUKA, Kawasaki, Stäubli, Epson, Comau, Denso
-#   Defunct/acquired: Fetch Robotics (→ Zebra), Covariant (→ Amazon)
+#            Torc Robotics, Mobileye, Yaskawa, Rockwell Automation, Fetch/Zebra
+#   Custom:  OpenAI, Intuitive Surgical, Wing (Alphabet), SpaceX, Blue Origin
+#            Google DeepMind (Google Careers), Microsoft, iRobot, Dyson
+#   No US internships: Unitree, Xiaomi, Fourier, UBTECH, Geek+, Hai Robotics
+#   Industrial (no US intern programs): FANUC, KUKA, Kawasaki, Stäubli, Denso
+#   Defunct/acquired: Fetch Robotics (→ Zebra), Covariant (→ Amazon), Argo AI
 #
 # These are caught by LinkedIn/Google job-scout searches instead.
 
 COMPANIES = [
-    # ── Greenhouse (confirmed working) ─────────────────────────────────────────
-    ("Figure AI",              "greenhouse",        "figure"),
+    # ── Greenhouse ────────────────────────────────────────────────────────────────
+    ("Figure AI",              "greenhouse",        "figureai"),
     ("Waymo",                  "greenhouse",        "waymo"),
     ("Agility Robotics",       "greenhouse",        "agilityrobotics"),
     ("Google DeepMind",        "greenhouse",        "deepmind"),
@@ -31,16 +32,27 @@ COMPANIES = [
     ("Vicarious Surgical",     "greenhouse",        "vicarioussurgical"),
     ("Motional",               "greenhouse",        "motional"),
     ("Archer Aviation",        "greenhouse",        "archer"),
+    ("Nuro",                   "greenhouse",        "nuro"),
+    ("May Mobility",           "greenhouse",        "maymobility"),
+    ("Carbon Robotics",        "greenhouse",        "carbonrobotics"),
+    ("Path Robotics",          "greenhouse",        "pathrobotics"),
+    ("Stack AV",               "greenhouse",        "stackav"),
+    ("Zipline",                "greenhouse",        "flyzipline"),
+    ("Kodiak Robotics",        "greenhouse",        "kodiak"),
+    ("Diligent Robotics",      "greenhouse",        "diligentrobotics"),
+    ("Nimble Robotics",        "greenhouse",        "nimblerobotics"),
 
-    # ── Lever (confirmed working) ──────────────────────────────────────────────
+    # ── Lever ─────────────────────────────────────────────────────────────────────
     ("Shield AI",              "lever",             "shieldai"),
     ("Sanctuary AI",           "lever",             "sanctuary"),
     ("Saronic Technologies",   "lever",             "saronic"),
     ("Merlin Labs",            "lever",             "merlinlabs"),
     ("Cyngn",                  "lever",             "cyngn"),
     ("Forterra",               "lever",             "forterra"),
+    ("Zoox",                   "lever",             "zoox"),
+    ("Dexterity",              "lever",             "dexterity"),
 
-    # ── Ashby via Playwright (API locked, page is public) ─────────────────────
+    # ── Ashby via Playwright (API locked, page is public) ─────────────────────────
     ("Physical Intelligence",  "playwright_ashby",  "physicalintelligence"),
     ("1X Technologies",        "playwright_ashby",  "1xtechnologies"),
     ("Skydio",                 "playwright_ashby",  "skydio"),
@@ -64,4 +76,8 @@ COMPANIES = [
     ("AutoStore",              "playwright_ashby",  "autostore"),
     ("Clearpath Robotics",     "playwright_ashby",  "clearpath"),
     ("Amazon Robotics",        "playwright_ashby",  "amazonrobotics"),
+    ("Applied Intuition",      "playwright_ashby",  "appliedintuition"),
+    ("Viam",                   "playwright_ashby",  "viam"),
+    ("Joby Aviation",          "playwright_ashby",  "joby"),
+    ("Machina Labs",           "playwright_ashby",  "machinalabs"),
 ]

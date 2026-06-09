@@ -39,6 +39,8 @@ profile:
       - "Waymo"
       - "NVIDIA"
       - "Google DeepMind"
+      - "OpenAI"
+      - "Microsoft"
     tier2:
       - "Agility Robotics"
       - "Apptronik"
@@ -50,6 +52,38 @@ profile:
       - "Joby Aviation"
       - "Archer Aviation"
       - "Skild"
+      - "Ghost Robotics"
+      - "Intuitive Surgical"
+      - "Collaborative Robotics"
+      - "Motional"
+      - "Amazon Robotics"
+      - "Clearpath Robotics"
+    tier3:
+      - "Applied Intuition"
+      - "Zipline"
+      - "XPENG"
+      - "Anyware Robotics"
+      - "Saildrone"
+      - "AeroVironment"
+      - "Kratos"
+      - "Symbotic"
+      - "Teal Drones"
+      - "Vicarious Surgical"
+      - "Locus Robotics"
+      - "Saronic"
+      - "Merlin Labs"
+      - "Epirus"
+      - "Skild"
+      - "Monarch Tractor"
+      - "Procept"
+      - "CMR Surgical"
+      - "Asensus"
+      - "GreyOrange"
+      - "Exotec"
+      - "Mytra"
+      - "Wisk"
+      - "Blue Origin"
+      - "Redwire"
 
   dealbreakers:
     title_patterns:
@@ -58,10 +92,16 @@ profile:
       - "(?i)director"
       - "(?i)\\bvp\\b"
       - "(?i)recruiter"
+      - "(?i)recruiting"
       - "(?i)\\bsales\\b"
       - "(?i)marketing"
       - "(?i)finance"
       - "(?i)\\blegal\\b"
+      - "(?i)technician trainee"
+      - "(?i)service technician"
+      - "(?i)safety intern"
+      - "(?i)construction"
+      - "(?i)operations intern"
     company_patterns: []
     description_patterns: []
 
@@ -69,36 +109,38 @@ profile:
     - "Intern"
 
   title_signals:
-    - pattern: "fall 2026"
-      points: 20
-    - pattern: "summer 2027"
-      points: 20
-    - pattern: "spring 2027"
-      points: 20
-    - pattern: "summer 2026"
-      points: 18
     - pattern: "robot learning"
+      points: 20
+    - pattern: "VLA"
+      points: 20
+    - pattern: "world model"
       points: 18
     - pattern: "embodied"
-      points: 15
-    - pattern: "VLA"
-      points: 18
-    - pattern: "world model"
       points: 16
     - pattern: "reinforcement learning"
-      points: 14
+      points: 15
     - pattern: "robotics"
-      points: 12
+      points: 14
     - pattern: "robot"
-      points: 12
+      points: 14
     - pattern: "autonomous"
-      points: 10
+      points: 12
     - pattern: "perception"
-      points: 10
+      points: 12
     - pattern: "machine learning"
+      points: 10
+    - pattern: "computer vision"
+      points: 10
+    - pattern: "deep learning"
       points: 8
+    - pattern: "manipulation"
+      points: 12
+    - pattern: "autonomy"
+      points: 12
+    - pattern: "SLAM"
+      points: 12
     - pattern: "software"
-      points: 5
+      points: 4
 
 search:
   terms:
@@ -473,7 +515,7 @@ scraping:
   max_workers: 8
 
 scoring:
-  min_alert_score: 25
+  min_alert_score: 35
   min_display_score: 15
   alert_states: []
 

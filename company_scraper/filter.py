@@ -13,8 +13,9 @@ _TECH_RE = re.compile(
 
 # Hard exclude — never want these even as intern roles
 _EXCLUDE_RE = re.compile(
-    r"\b(recruiter|sales|marketing|finance|accounting|legal|\bhr\b|counsel|"
-    r"operations manager|program manager)\b",
+    r"\b(recruiter|recruiting|sales|marketing|finance|accounting|legal|\bhr\b|"
+    r"counsel|operations manager|program manager|technician trainee|"
+    r"service technician|safety intern|construction)\b",
     re.I,
 )
 

@@ -32,6 +32,7 @@ def scrape(company: str, slug: str) -> list[dict]:
             # Ashby job links are /{slug}/{uuid} — grab all of them
             elements = page.query_selector_all(f"a[href^='/{slug}/']")
             seen_hrefs: set[str] = set()
+            seen_titles: set[str] = set()  # Ashby lists same job under multiple depts with different UUIDs
             for el in elements:
                 href = el.get_attribute("href") or ""
                 if not href or href in seen_hrefs:
@@ -43,6 +44,11 @@ def scrape(company: str, slug: str) -> list[dict]:
                 title = raw_text.split("\n")[0].strip()
                 if not title or len(title) < 3:
                     continue
+
+                title_key = title.lower()
+                if title_key in seen_titles:
+                    continue
+                seen_titles.add(title_key)
 
                 job_url = f"{BASE}{href}"
                 jobs.append({

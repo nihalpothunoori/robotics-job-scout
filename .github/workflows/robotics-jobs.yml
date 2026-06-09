@@ -2,7 +2,7 @@ name: Robotics Job Scout
 
 on:
   schedule:
-    - cron: '0 * * * *'   # every hour, on the hour
+    - cron: '15 * * * *'  # every hour at :15 (less contested than :00)
   workflow_dispatch:
 
 permissions:

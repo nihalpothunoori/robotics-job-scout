@@ -9,6 +9,25 @@
     "ashby::skydio::/skydio/f6320e9b-4eed-408d-8d37-d509fb0406ee",
     "greenhouse::agilityrobotics::5836476004",
     "greenhouse::motional::6659639003",
-    "greenhouse::motional::7600024003"
+    "greenhouse::motional::7600024003",
+    "workday::nvidia::JR2006824",
+    "workday::nvidia::JR2006910",
+    "workday::nvidia::JR2009745",
+    "workday::nvidia::JR2010555",
+    "workday::nvidia::JR2011493",
+    "workday::nvidia::JR2012398",
+    "workday::nvidia::JR2014186",
+    "workday::nvidia::JR2014561",
+    "workday::nvidia::JR2016035",
+    "workday::nvidia::JR2016444",
+    "workday::nvidia::JR2016445",
+    "workday::nvidia::JR2017296",
+    "workday::nvidia::JR2017298",
+    "workday::nvidia::JR2017522",
+    "workday::nvidia::JR2018317",
+    "workday::nvidia::JR2018629",
+    "workday::nvidia::JR2018652",
+    "workday::nvidia::JR2018701",
+    "workday::nvidia::JR2018845"
   ]
 }

@@ -9,8 +9,8 @@ from pathlib import Path
 from companies import COMPANIES
 from filter import is_relevant
 from notifier import send_jobs
-from scrapers import ashby, greenhouse, lever
-from scrapers import playwright_ashby
+from scrapers import ashby, greenhouse, lever, workday
+from scrapers import playwright_ashby, playwright_tesla
 
 STATE_FILE = Path(__file__).parent / "state.json"
 SCRAPER = {
@@ -18,6 +18,8 @@ SCRAPER = {
     "greenhouse": greenhouse.scrape,
     "ashby": ashby.scrape,
     "playwright_ashby": playwright_ashby.scrape,
+    "workday": workday.scrape,
+    "playwright_tesla": playwright_tesla.scrape,
 }
 
 
@@ -50,10 +52,19 @@ def main() -> None:
     seen = load_seen()
     all_jobs: list[dict] = []
 
+    pw_ashby = [(c, s) for c, a, s in COMPANIES if a == "playwright_ashby"]
+    others = [(c, a, s) for c, a, s in COMPANIES if a != "playwright_ashby"]
+
     with ThreadPoolExecutor(max_workers=10) as pool:
-        futures = {pool.submit(fetch, c, a, s): c for c, a, s in COMPANIES}
+        futures = {pool.submit(fetch, c, a, s): c for c, a, s in others}
         for future in as_completed(futures):
             all_jobs.extend(future.result())
+
+    if pw_ashby:
+        try:
+            all_jobs.extend(playwright_ashby.scrape_batch(pw_ashby))
+        except Exception as e:
+            print(f"[playwright_ashby batch] {e}", file=sys.stderr)
 
     new_jobs = [
         j for j in all_jobs

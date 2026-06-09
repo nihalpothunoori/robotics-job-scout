@@ -5,17 +5,16 @@
 #   lever            — REST API, no auth
 #   ashby            — REST API (returns 401 for most; use playwright_ashby instead)
 #   playwright_ashby — headless Chromium renders jobs.ashbyhq.com/{slug}
+#   workday          — REST API, slug format: '{subdomain}:{wd_num}:{tenant}'
+#   playwright_tesla — headless Chromium renders tesla.com/careers/search
 #
 # Companies not listed (no programmatic access):
-#   Workday: Tesla, NVIDIA, Boston Dynamics, Stryker, Medtronic, ABB, Universal Robots
-#            Torc Robotics, Mobileye, Yaskawa, Rockwell Automation, Fetch/Zebra
-#   Custom:  OpenAI, Intuitive Surgical, Wing (Alphabet), SpaceX, Blue Origin
-#            Google DeepMind (Google Careers), Microsoft, iRobot, Dyson
+#   Workday (auth required): Mobileye, Stryker, Torc Robotics, ABB, Yaskawa
+#   Custom (bot-protected):  OpenAI, Intuitive Surgical, Wing (Alphabet),
+#                            SpaceX, Blue Origin, Microsoft, iRobot, Dyson
 #   No US internships: Unitree, Xiaomi, Fourier, UBTECH, Geek+, Hai Robotics
 #   Industrial (no US intern programs): FANUC, KUKA, Kawasaki, Stäubli, Denso
 #   Defunct/acquired: Fetch Robotics (→ Zebra), Covariant (→ Amazon), Argo AI
-#
-# These are caught by LinkedIn/Google job-scout searches instead.
 
 COMPANIES = [
     # ── Greenhouse ────────────────────────────────────────────────────────────────
@@ -80,4 +79,11 @@ COMPANIES = [
     ("Viam",                   "playwright_ashby",  "viam"),
     ("Joby Aviation",          "playwright_ashby",  "joby"),
     ("Machina Labs",           "playwright_ashby",  "machinalabs"),
+
+    # ── Workday (public REST API) ──────────────────────────────────────────────────
+    ("NVIDIA",                 "workday",           "nvidia:5:NVIDIAExternalCareerSite"),
+    ("Boston Dynamics",        "workday",           "bostondynamics:1:Boston_Dynamics"),
+
+    # ── Tesla (custom career page, Playwright) ─────────────────────────────────────
+    ("Tesla",                  "playwright_tesla",  "tesla"),
 ]

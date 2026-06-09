@@ -25,4 +25,6 @@ def is_relevant(title: str, description: str = "") -> bool:
         return False
     if _EXCLUDE_RE.search(title):
         return False
-    return bool(_TECH_RE.search(f"{title} {description}"))
+    # Tech keyword must appear in the title — description is too noisy since
+    # any job at a robotics company will mention robots in the description.
+    return bool(_TECH_RE.search(title))

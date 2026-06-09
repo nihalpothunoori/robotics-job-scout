@@ -20,13 +20,19 @@ from job_scout.scrapers import BaseScraper
 log = logging.getLogger("job_scout.scrapers.twitter")
 
 # Public Nitter instances — tried in order, first working one is used.
+# List sourced from https://status.d420.de (updated periodically).
 _INSTANCES = [
+    "https://nitter.privacyredirect.com",
     "https://nitter.poast.org",
+    "https://nitter.tiekoetter.com",
+    "https://nitter.space",
     "https://nitter.privacydev.net",
     "https://nitter.1d4.us",
     "https://nitter.cz",
     "https://xcancel.com",
     "https://nitter.unixfox.eu",
+    "https://nitter.moomoo.me",
+    "https://nitter.lunar.icu",
 ]
 
 _HEADERS = {

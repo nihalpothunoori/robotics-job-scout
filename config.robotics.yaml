@@ -499,7 +499,8 @@ search:
   sites:
     - linkedin
     - google
-    - twitter
+    # twitter disabled — all public Nitter instances are behind bot-challenges
+    # or dead; re-add when a working instance is available
   results_per_site: 10
   hours_old: 24
   distance_miles: 100

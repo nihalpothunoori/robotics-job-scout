@@ -26,6 +26,25 @@ GOOGLE_JOB_KEY = "520084652"
 class GoogleScraper(BaseScraper):
     site = Site.GOOGLE
 
+    def _make_client(self):
+        # Google aggressively detects plain httpx; always try TLS fingerprinting first.
+        proxy = self._next_proxy()
+        try:
+            from job_scout.scrapers.tls import create_tls_client
+
+            return create_tls_client(proxy=proxy, timeout=self.config.request_timeout)
+        except ImportError:
+            log.warning(
+                "curl_cffi not installed — Google scraping will likely return 0 results. "
+                "Install it with: pip install curl-cffi"
+            )
+        import httpx
+
+        kwargs: dict = {"timeout": self.config.request_timeout, "follow_redirects": True}
+        if proxy:
+            kwargs["proxy"] = proxy
+        return httpx.Client(**kwargs)
+
     def scrape(self, params: ScrapeParams) -> list[Job]:
         jobs: list[Job] = []
         seen_urls: set[str] = set()
@@ -77,7 +96,15 @@ class GoogleScraper(BaseScraper):
             headers=GOOGLE_HEADERS_INITIAL,
         )
         if resp is None or resp.status_code != 200:
+            log.warning(f"Google initial page failed: status={getattr(resp, 'status_code', None)}")
             return None, []
+
+        if GOOGLE_JOB_KEY not in resp.text:
+            log.warning(
+                f"Google response did not contain job key '{GOOGLE_JOB_KEY}' — "
+                f"page may be a CAPTCHA or the key may be stale. "
+                f"Response snippet: {resp.text[:300]!r}"
+            )
 
         # Extract cursor for pagination
         fc_match = re.search(r'data-async-fc="([^"]+)"', resp.text)
@@ -206,12 +233,44 @@ def _find_job_info(data) -> list | None:
 
 def _find_jobs_initial_page(html_text: str) -> list:
     """Extract job info from initial Google search page HTML."""
-    pattern = f'{GOOGLE_JOB_KEY}":(' + r"\[.*?\]\s*])\s*}\s*]\s*]\s*]\s*]\s*]"
+    search_key = f'"{GOOGLE_JOB_KEY}":'
     results = []
-    for match in re.finditer(pattern, html_text):
+    pos = 0
+    while True:
+        idx = html_text.find(search_key, pos)
+        if idx == -1:
+            break
+        start = html_text.find("[", idx + len(search_key))
+        if start == -1:
+            break
+        # Walk brackets to find the end of the array (regex can't handle nesting)
+        depth = 0
+        end = start
+        in_string = False
+        escape_next = False
+        for i, ch in enumerate(html_text[start:], start):
+            if escape_next:
+                escape_next = False
+                continue
+            if ch == "\\" and in_string:
+                escape_next = True
+                continue
+            if ch == '"':
+                in_string = not in_string
+                continue
+            if in_string:
+                continue
+            if ch == "[":
+                depth += 1
+            elif ch == "]":
+                depth -= 1
+                if depth == 0:
+                    end = i + 1
+                    break
         try:
-            parsed = json.loads(match.group(1))
+            parsed = json.loads(html_text[start:end])
             results.append(parsed)
         except json.JSONDecodeError:
             pass
+        pos = idx + len(search_key)
     return results

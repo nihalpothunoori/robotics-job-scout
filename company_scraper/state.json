@@ -40,6 +40,7 @@
     "workday::nvidia::JR2018845",
     "workday::nvidia::JR2019390",
     "workday::nvidia::JR2019414",
+    "workday::nvidia::JR2019612",
     "workday::nvidia::JR2019909"
   ]
 }

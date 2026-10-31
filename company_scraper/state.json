@@ -1,15 +1,27 @@
 {
   "seen": [
+    "ashby::skydio::/skydio/05f020b1-9023-49c5-bac4-42dbd8552d3a",
     "ashby::skydio::/skydio/12590806-3cf0-4bc3-930b-12b53e227a5c",
+    "ashby::skydio::/skydio/19352f5e-c30d-4184-a070-3c25b0ebc048",
     "ashby::skydio::/skydio/611a7f87-bc4c-468f-976f-ecd33b731fa3",
+    "ashby::skydio::/skydio/6f5caf41-fa1d-4208-9bdc-82c72e5d3f17",
+    "ashby::skydio::/skydio/79fdda46-4ff5-42c7-b208-55f2084cdb8c",
     "ashby::skydio::/skydio/7d9dbb60-4ca1-4ba8-8bae-5ebfded4a915",
+    "ashby::skydio::/skydio/89bb6fee-3cd2-4e0b-a1c2-c73de8c1f9bd",
+    "ashby::skydio::/skydio/8a237302-3fe8-4403-b32b-7690f333ba52",
     "ashby::skydio::/skydio/8d3979a8-c791-4825-8cf4-9b25479b9519",
     "ashby::skydio::/skydio/ae4a6f7d-a240-4fa2-8c8e-04cc906e4ef9",
+    "ashby::skydio::/skydio/bdf927bf-8ec0-4bf4-9145-8211db836b6a",
     "ashby::skydio::/skydio/c783c8dd-f604-47d0-aae0-187af89c81b4",
     "ashby::skydio::/skydio/c84945f0-b8e0-4272-b636-265d6611a8eb",
+    "ashby::skydio::/skydio/d79ccbaa-2901-4303-bd90-675db7802366",
+    "ashby::skydio::/skydio/f1a72f5b-6157-47c1-8de9-379a32c7419f",
     "ashby::skydio::/skydio/f6320e9b-4eed-408d-8d37-d509fb0406ee",
+    "ashby::skydio::/skydio/ffc665c1-2aa6-4c2f-b04b-93a6fb7b5feb",
     "greenhouse::agilityrobotics::5836476004",
     "greenhouse::andurilindustries::5148079007",
+    "greenhouse::andurilindustries::5239083007",
+    "greenhouse::andurilindustries::5255902007",
     "greenhouse::apptronik::5985132004",
     "greenhouse::apptronik::6128057004",
     "greenhouse::flyzipline::7761650003",
@@ -54,6 +66,8 @@
     "greenhouse::waymo::8237997",
     "greenhouse::waymo::8238525",
     "greenhouse::waymo::8240198",
+    "greenhouse::waymo::8248060",
+    "workday::bostondynamics::R3317",
     "workday::nvidia::JR2006824",
     "workday::nvidia::JR2006910",
     "workday::nvidia::JR2009745",
@@ -99,6 +113,8 @@
     "workday::nvidia::JR2023913",
     "workday::nvidia::JR2023971",
     "workday::nvidia::JR2024408",
-    "workday::nvidia::JR2024500"
+    "workday::nvidia::JR2024500",
+    "workday::nvidia::JR2026972",
+    "workday::nvidia::JR2028499"
   ]
 }
